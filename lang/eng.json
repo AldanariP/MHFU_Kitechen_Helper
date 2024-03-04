@@ -1,0 +1,362 @@
+{
+  "1": {
+    "Meat": [
+      "Meat Scraps",
+      "Rubbery Jerky",
+      "Tough Meat"
+    ],
+    "Bran": [
+      "Chunky Rice",
+      "Furahiya Wheat",
+      "Mixed Beans"
+    ],
+    "Fish": [
+      "Bone Taco",
+      "Clamchip",
+      "Scalefish"
+    ],
+    "Fruit": [
+      "Oily Raisins"
+    ],
+    "Veggie": [
+      "Jungle Onion",
+      "Pumpkin",
+      "Twinshroom"
+    ],
+    "Dairy": [
+      "Powdered Cheese",
+      "Sticky Cream"
+    ],
+    "Drink": [
+      "Hopi"
+    ],
+    "Bonus": {
+      "Meat": {
+        "Meat": "+10 Health",
+        "Bran": "+10 Health",
+        "Fish": "-25 Stamina",
+        "Fruit": "No Effect",
+        "Veggie": "+25 Stamina",
+        "Dairy": "No Effect",
+        "Drink": "Attack Up Small"
+      },
+      "Bran": {
+        "Bran": "+25 Stamina",
+        "Fish": "+10 Health",
+        "Fruit": "Ice Res +3",
+        "Veggie": "-25 Stamina",
+        "Dairy": "No Effect",
+        "Drink": "-25 Stamina"
+      },
+      "Fish": {
+        "Fish": "Attack Up Small",
+        "Fruit": "-10 Health",
+        "Veggie": "+25 Stamina",
+        "Dairy": "No Effect",
+        "Drink": "+10 Defense"
+      },
+      "Fruit": {
+        "Veggie": "+20 Health",
+        "Dairy": "+25 Stamina",
+        "Drink": "-10 Health"
+      },
+      "Veggie": {
+        "Veggie": "+10 Defense",
+        "Dairy": "No Effect",
+        "Drink": "No Effect"
+      },
+      "Dairy": {
+        "Dairy": "No Effect",
+        "Drink": "-10 Health"
+      }
+    }
+  },
+  "2": {
+    "Meat": [
+      "Cubesteak",
+      "Spicy Sausage",
+      "Wild Bacon"
+    ],
+    "Bran": [
+      "Hardtack",
+      "Snowy Rice"
+    ],
+    "Fish": [
+      "Snake Salmon",
+      "Tuna Head"
+    ],
+    "Fruit": [
+      "Fruity Jam",
+      "Northern Orange"
+    ],
+    "Veggie": [
+      "Mild Herb",
+      "Sliced Cactus",
+      "Spotted Onion",
+      "Young Potato"
+    ],
+    "Dairy": [
+      "Aged Cheese",
+      "Carefree Yogurt"
+    ],
+    "Drink": [
+      "Furahiya Cola"
+    ],
+    "Bonus": {
+      "Meat": {
+        "Meat": "+20 Health",
+        "Bran": "+15 Defense",
+        "Fish": "No Effect",
+        "Fruit": "Fire Res +3",
+        "Veggie": "+25 Stamina",
+        "Dairy": "-20 Health",
+        "Drink": "+10 Health"
+      },
+      "Bran": {
+        "Bran": "+25 Stamina",
+        "Fish": "+20 Health",
+        "Fruit": "No Effect",
+        "Veggie": "Attack up Small",
+        "Dairy": "No Effect",
+        "Drink": "+10 Health & Thndr Res +3"
+      },
+      "Fish": {
+        "Fish": "Attack Up Small",
+        "Fruit": "No Effect",
+        "Veggie": "No Effect",
+        "Dairy": "-25 Stamina",
+        "Drink": "+25 Stamina"
+      },
+      "Fruit": {
+        "Fruit": "-20 Health",
+        "Veggie": "+10 Defense & +10 Health",
+        "Dairy": "Water Res +3",
+        "Drink": "No Effect"
+      },
+      "Veggie": {
+        "Veggie": "+10 Defense",
+        "Dairy": "-10 Health & -25 Stamina",
+        "Drink": "+25 Stamina"
+      },
+      "Dairy": {
+        "Dairy": "+25 Stamina & Attack Up Small",
+        "Drink": "Ice Res +3"
+      }
+    }
+  },
+  "3": {
+    "Meat": [
+      "Great Mutton",
+      "Juicy Rib Roast",
+      "Meatwagon"
+    ],
+    "Bran": [
+      "Kut Beans",
+      "Tasty Rice",
+      "Warwheat"
+    ],
+    "Fish": [
+      "Curved Shrimp",
+      "Horseshoe Crab",
+      "Spiky Blowfish"
+    ],
+    "Fruit": [
+      "Frozen Apples"
+    ],
+    "Veggie": [
+      "Cudgel Onion",
+      "Spicy Carrots",
+      "Western Parsley"
+    ],
+    "Dairy": [
+      "Buffalo Butter",
+      "Chili Cheese"
+    ],
+    "Drink": [
+      "Panish"
+    ],
+    "Bonus": {
+      "Meat": {
+        "Meat": "+20 Health",
+        "Bran": "No Effect",
+        "Fish": "Thunder Res +3",
+        "Fruit": "Attack Up Large",
+        "Veggie": "+10 Health & Attack Up Small",
+        "Dairy": "No Effect",
+        "Drink": "-25 Stamina"
+      },
+      "Bran": {
+        "Bran": "+25 Stamina",
+        "Fish": "No Effect",
+        "Fruit": "No Effect",
+        "Veggie": "+50 Stamina",
+        "Dairy": "+10 Defense & +25 Stamina",
+        "Drink": "+15 Defense & Water Res +3"
+      },
+      "Fish": {
+        "Fish": "Attack Up Small",
+        "Fruit": "+25 Stamina & Fire Res +3",
+        "Veggie": "-30 Health",
+        "Dairy": "+30 Health",
+        "Drink": "-25 Stamina"
+      },
+      "Fruit": {
+        "Veggie": "-30 Health",
+        "Dairy": "-20 Health & -25 Stamina",
+        "Drink": "Attack Up Small"
+      },
+      "Veggie": {
+        "Veggie": "+10 Defense",
+        "Dairy": "+10 Health & +15 Defense",
+        "Drink": "No Effect"
+      },
+      "Dairy": {
+        "Dairy": "+20 Health & Ice Res +3",
+        "Drink": "No Effect"
+      }
+    }
+  },
+  "4": {
+    "Meat": [
+      "Dragon Foot",
+      "Gator Ribmeat",
+      "Princess Pork"
+    ],
+    "Bran": [
+      "Ancient Beans",
+      "Kokoto Rice",
+      "Megabagel"
+    ],
+    "Fish": [
+      "King Squid",
+      "Queen Shrimp",
+      "Pink Caviar"
+    ],
+    "Fruit": [
+      "Burning Mango",
+      "Lifejam"
+    ],
+    "Veggie": [
+      "Cannon Lettuce",
+      "Rare Onion",
+      "Scented Celery"
+    ],
+    "Dairy": [
+      "Royale Cheese"
+    ],
+    "Drink": [
+      "Blessed Wine"
+    ],
+    "Bonus": {
+      "Meat": {
+        "Meat": "-30 Health",
+        "Bran": "-50 Stamina",
+        "Fish": "+25 Stamina & Water Res +5",
+        "Fruit": "Attack up Small & Fire Res +5",
+        "Veggie": "No Effect",
+        "Dairy": "+40 Health",
+        "Drink": "+10 Defense & Ice Res +5"
+      },
+      "Bran": {
+        "Bran": "+50 Stamina",
+        "Fish": "-30 Health & -25 Stamina",
+        "Fruit": "-40 Health",
+        "Veggie": "Attack Up Small & +25 Stamina",
+        "Dairy": "+30 Health & Attack Up Small",
+        "Drink": "No Effect"
+      },
+      "Fish": {
+        "Fish": "Attack Up large",
+        "Fruit": "+20 Defense",
+        "Veggie": "+20 Health & Dragon Res +3",
+        "Dairy": "+10 Defense & Thndr Res +3",
+        "Drink": "No Effect"
+      },
+      "Fruit": {
+        "Fruit": "Attack Up Large & +10 Health",
+        "Veggie": "+50 Stamina",
+        "Dairy": "No Effect",
+        "Drink": "+20 Health & +15 Defense"
+      },
+      "Veggie": {
+        "Veggie": "+15 Defense",
+        "Dairy": "No Effect",
+        "Drink": "+40 Health"
+      },
+      "Dairy": {
+        "Drink": "+20 Health & +25 Stamina"
+      }
+    }
+  },
+  "5": {
+    "Meat": [
+      "Bigmeat",
+      "Dragon Head",
+      "Dragon Tail",
+      "King Turkey"
+    ],
+    "Bran": [
+      "Gold Rice",
+      "Heaven Bread",
+      "Soul Beans"
+    ],
+    "Fish": [
+      "1,000 Year Crab",
+      "Crimson Seabream",
+      "Hairy Tuna"
+    ],
+    "Fruit": [
+      "Emerald Durian"
+    ],
+    "Veggie": [
+      "Demonshroom",
+      "Fatty Tomato",
+      "King Truffle"
+    ],
+    "Dairy": [
+      "Kirin Cheese"
+    ],
+    "Drink": [
+      "Goldenfish Brew"
+    ],
+    "Bonus": {
+      "Meat": {
+        "Meat": "+30 Health",
+        "Bran": "No Effect",
+        "Fish": "+20 Health & +50 Stamina",
+        "Fruit": "-40 Health & -25 Stamina",
+        "Veggie": "+40 Health & Attack Up Large",
+        "Dairy": "+25 Stamina & +15 Defense",
+        "Drink": "Attack up Small & Fire Res +5"
+      },
+      "Bran": {
+        "Bran": "+50 Stamina",
+        "Fish": "+40 Health & +20 Defense",
+        "Fruit": "+30 Health & +25 Stamina",
+        "Veggie": "Attack Up Small & +25 Stamina",
+        "Dairy": "-50 Health",
+        "Drink": "+20 Health & Water Res +5"
+      },
+      "Fish": {
+        "Fish": "Attack Up Large",
+        "Fruit": "+50 Stamina & +10 Defense",
+        "Veggie": "+10 Defense & Ice Res +5",
+        "Dairy": "No Effect",
+        "Drink": "No Effect"
+      },
+      "Fruit": {
+        "Veggie": "No Effect",
+        "Dairy": "+50 Health & Dragon Res +5",
+        "Drink": "Attack Up Small & Thndr Res +5"
+      },
+      "Veggie": {
+        "Veggie": "+15 Defense",
+        "Dairy": "+25 Stamina",
+        "Drink": "-50 Stamina"
+      },
+      "Dairy": {
+        "Drink": "+50 Health & +50 Stamina"
+      }
+    }
+  }
+}
