@@ -12,7 +12,7 @@ class Controller:
 
     def resetCheckBoxField(self):
         for child in self.view.checkBoxField.winfo_children():
-            if child.isinstance(ctk.CTkComboBox):
+            if isinstance(child, ctk.CTkCheckBox):
                 child.deselect()
 
     def displayBonuses(self):
@@ -21,5 +21,5 @@ class Controller:
                                       self.view.noEffect.get())
         self.view.displayBonuses([bonus.toDisplayList() for bonus in bonuses])
 
-    def drawCheckBoxField(self):
-        pass
+    def getCheckBoxData(self):
+        self.view.drawCheckBoxField(self.model.getIngredients(self.view.chefNumber.get()))

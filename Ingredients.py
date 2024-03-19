@@ -20,7 +20,7 @@ class Ingredient:
     def isOfType(self, ingredientType: IngredientType):
         return self.ingredientType == ingredientType
 
-    def isAvailableWithChefNumber(self, chefNumber: int):
+    def isAtChefNumber(self, chefNumber: int):
         return self.chefNumber == chefNumber
 
     def __str__(self):

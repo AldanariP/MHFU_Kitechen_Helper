@@ -1,4 +1,6 @@
 import json
+
+import Ingredients
 from Bonus import *
 from Ingredients import *
 
@@ -23,6 +25,11 @@ class Model:
         resultBonuses.reverse()  # because it's somehow displayed in the wrong way
 
         return resultBonuses
+
+    def getIngredients(self, chefNumber: int) -> dict[str, list[str]]:  # pretty clear rigth ?
+        return {ingredientType: [ingredient.name for ingredient in self.ingredientList
+                                 if ingredient.isAtChefNumber(chefNumber) and ingredient.isOfType(ingredientType)]
+                for ingredientType in IngredientType}
 
     def loadIngredientFrom(self, path):  # Python is readable they say...
         with open(path, "r") as file:
