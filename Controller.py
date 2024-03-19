@@ -16,11 +16,10 @@ class Controller:
                 child.deselect()
 
     def displayBonuses(self):
-        bonuses = [bonus.toDisplayList() for bonus in self.model.getBonus(self.view.chefNumber.get(),
-                                                                          Bonus.bonusFromString(self.view.sortBy.get()),
-                                                                          showNoEffect=self.view.noEffect.get())]
-        self.view.displayBonuses(bonuses)
+        bonuses = self.model.getBonus(self.view.chefNumber.get(),
+                                      Bonus.bonusFromString(self.view.sortBy.get()),
+                                      self.view.noEffect.get())
+        self.view.displayBonuses([bonus.toDisplayList() for bonus in bonuses])
 
     def drawCheckBoxField(self):
         pass
-

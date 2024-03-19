@@ -16,9 +16,11 @@ class Model:
             resultBonuses = [x for x in resultBonuses if not x.isOfBuffType(BuffType.NOEFFECT)]
 
         if orderBy is not None:
+            for bonus in resultBonuses:
+                bonus.setComparator(orderBy)  # because the bonus need to know the type of the comparison in the __lt__
             resultBonuses.sort(key=lambda bonus: (bonus.isOfBuffType(orderBy), bonus))
 
-        resultBonuses.reverse()  # because somehow displayed in the wrong way
+        resultBonuses.reverse()  # because it's somehow displayed in the wrong way
 
         return resultBonuses
 
@@ -35,5 +37,8 @@ class Model:
                         # Bonuses
                         for ingr1Bonnus in data[chefNumber]['Bonus']:
                             for ingr2Bonnus in data[chefNumber]['Bonus'][ingr1Bonnus]:
-                                self.bonusList.append(Bonus(chefNumber, ingr1Bonnus, ingr2Bonnus,
-                                                            data[chefNumber]['Bonus'][ingr1Bonnus][ingr2Bonnus]))
+                                self.bonusList.append(
+                                    Bonus(chefNumber,
+                                          ingr1Bonnus,
+                                          ingr2Bonnus,
+                                          data[chefNumber]['Bonus'][ingr1Bonnus][ingr2Bonnus]))

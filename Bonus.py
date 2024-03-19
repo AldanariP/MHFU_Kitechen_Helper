@@ -36,6 +36,7 @@ class Bonus:
         self.ingredient1: IngredientType = ingredient1
         self.ingredient2: IngredientType = ingredient2
         self.effect: str = effect
+        self.sortedBy = None
         # parse buff type
         try:
             buff1, buff2 = effect.split("&")
@@ -44,11 +45,52 @@ class Bonus:
         except ValueError:
             self.buffType1: BuffType = next((value for key, value in Bonus.buffKeyMap.items() if key in effect), None)
 
-        if self.buffType1 is None or (hasattr(self, 'buffType2') and self.buffType2 is None):
+        # parse buff value
+        match self.buffType1:
+            case BuffType.NOEFFECT:
+                self.buffValue1 = 0
+            case BuffType.ATTACK:
+                self.buffValue1 = 30 if "Small" in self.effect else 50
+            case BuffType.ELEMENTALRES:
+                self.buffValue1 = int(self.effect[-1])
+            case _:
+                self.buffValue1 = int(self.effect[0:3])
+
+        if self.hasDoubleEffect():
+            match self.buffType2:
+                case BuffType.NOEFFECT:
+                    self.buffValue2 = 0
+                case BuffType.ATTACK:
+                    self.buffValue2 = 30 if "Small" in self.effect else 50
+                case BuffType.ELEMENTALRES:
+                    self.buffValue2 = int(self.effect[-1])
+                case _:
+                    self.buffValue2 = int(self.effect.split("& ")[1][0:3])
+
+        if self.buffType1 is None or (self.hasDoubleEffect() and self.buffType2 is None):
             raise ValueError(f"Failed to Parse the effect : '{effect}'")
 
+    def hasDoubleEffect(self):
+        return hasattr(self, "buffType2")
+
     def isOfBuffType(self, buffType: BuffType) -> bool:
-        return self.buffType1 == buffType or (hasattr(self, 'buffType2') and self.buffType2 == buffType)
+        return self.buffType1 == buffType or (self.hasDoubleEffect() and self.buffType2 == buffType)
+
+    def valueOfBuffType(self, buffType: BuffType) -> int:
+        if not self.isOfBuffType(buffType):
+            raise ValueError(f"Can't retreive BuffValue for Bonus : {buffType} in {self.effect}")
+        if self.hasDoubleEffect():
+            return self.buffValue1 if self.buffType1 == buffType else self.buffValue2
+        else:
+            # not the intended way of using this function
+            # but since the condition is evaluated anyway if we return or raise ValueError, migth as well return
+            return self.buffValue1
+
+    def totalValue(self) -> int:
+        return self.buffValue1 + (self.buffValue2 if self.hasDoubleEffect() else 0)
+
+    def setComparator(self, buffType: BuffType):
+        self.sortedBy = buffType
 
     def isAvailableForChefNumber(self, chefNumber: int) -> bool:
         return self.chefNumber == chefNumber
@@ -58,7 +100,7 @@ class Bonus:
 
     def __str__(self):
         return (f"{self.chefNumber} : {self.ingredient1} + {self.ingredient2} => {self.effect} ({self.buffType1}"
-                + (f", {self.buffType2})" if hasattr(self, 'buffType2') else ')'))
+                + (f", {self.buffType2})" if self.hasDoubleEffect() else ')'))
 
     def __eq__(self, other):
         if not isinstance(other, Bonus):
@@ -66,18 +108,21 @@ class Bonus:
         return (self.chefNumber == other.chefNumber
                 and {self.ingredient1, self.ingredient2} == {other.ingredient1, other.ingredient2})
 
-    def __lt__(self, other):
+    def __lt__(self, other) -> bool:
         if not isinstance(other, Bonus):
             return False
-        if self.isOfBuffType(BuffType.NOEFFECT):  # no effect has always less value
-            return True
-        if self.isOfBuffType(BuffType.ATTACK):  # there are no negative attack buff, compared with by small < large
-            return "Small" in self.effect and "Large" in other.effect
+        if self.hasDoubleEffect() or self.hasDoubleEffect():
+
+            if self.isOfBuffType(self.sortedBy) and other.isOfBuffType(self.sortedBy):  # 1 1
+                return self.valueOfBuffType(self.sortedBy) < other.valueOfBuffType(self.sortedBy)
+
+            elif self.isOfBuffType(self.sortedBy):                                      # 1 0
+                return self.valueOfBuffType(self.sortedBy) < other.buffValue1
+
+            elif other.isOfBuffType(self.sortedBy):                                     # 0 1
+                return self.buffValue1 < other.valueOfBuffType(self.sortedBy)
+
+            else:                                                                       # 0 0
+                return self.totalValue() < other.totalValue()
         else:
-            if self.effect[0] == other.effect[0]:  # if they are both positive or both negative
-                if self.effect.startswith("+"):  # positive are sorted from best to better
-                    return self.effect < other.effect  # TODO fix sorting double effect
-                else:  # negative are sorted from worse to worser
-                    return self.effect > other.effect
-            else:  # negative buff has less value than a positive buff
-                return "-" in self.effect and "+" in other.effect
+            return self.buffValue1 < other.buffValue1
