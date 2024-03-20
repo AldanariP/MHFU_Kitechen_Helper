@@ -1,6 +1,5 @@
 import json
 
-import Ingredients
 from Bonus import *
 from Ingredients import *
 

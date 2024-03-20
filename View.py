@@ -1,7 +1,7 @@
-import customtkinter as ctk
 from tkinter import ttk
 
-from Ingredients import IngredientType, Ingredient
+import customtkinter as ctk
+
 from Model import BuffType
 
 
