@@ -1,14 +1,13 @@
-import customtkinter as ctk
 from tkinter import ttk
 
-from Ingredients import IngredientType, Ingredient
+import customtkinter as ctk
+
 from Model import BuffType
 
 
 class View(ctk.CTkFrame):
-    DEFAULT_CHEF_VALUE: int = 1  # TODO remeber into preference files
 
-    def __init__(self, parent: ctk.CTk):
+    def __init__(self, parent: ctk.CTk, config: dict):
         super().__init__(parent, border_color="red", border_width=5)
         self.grid_configure(row=0, column=0, padx=10, pady=10, sticky="nsew")
         self.grid_rowconfigure(1, weight=1)
@@ -25,7 +24,7 @@ class View(ctk.CTkFrame):
         comboLabel.grid_configure(row=0, column=0, padx=5, sticky="w")
 
         self.chefNumber: ctk.IntVar = ctk.IntVar()
-        self.chefNumber.set(self.DEFAULT_CHEF_VALUE)
+        self.chefNumber.set(config['felyneNumber'])
         chefNumberBox = ctk.CTkComboBox(master=actionFrame,
                                         values=["1", "2", "3", "4", "5"],
                                         variable=self.chefNumber,
@@ -52,9 +51,13 @@ class View(ctk.CTkFrame):
                                     command=self.sortBuffs,
                                     state="readonly")
         filterBox.grid_configure(row=0, column=1)
-        filterBox.set('Order By')
+        if config['orderBy'] != "None":
+            self.sortBy.set(config['orderBy'])
+        else:
+            filterBox.set('Order By')
 
         self.noEffect: ctk.BooleanVar = ctk.BooleanVar()
+        self.noEffect.set(bool(config['showNoEffect']))
         noEffectCheckBox = ctk.CTkCheckBox(master=resultActionFrame,
                                            text="Show \"No Effect\" Buff",
                                            variable=self.noEffect,
@@ -121,7 +124,7 @@ class View(ctk.CTkFrame):
             label = ctk.CTkLabel(master=self.checkBoxField, text=ingredientType + " :")
             label.grid_configure(row=rowIndex, column=colIndex, sticky="w")
             for index, ingredient in enumerate(ingredientList):
-                checkbox = ctk.CTkCheckBox(self.checkBoxField, text=ingredient)
+                checkbox = ctk.CTkCheckBox(self.checkBoxField, text=ingredient, command=self.updateBonuses)
                 checkbox.grid_configure(row=rowIndex + index + 1, column=colIndex, sticky="w", padx=20)
 
     def updateChefNumber(self, unused: str):  # because ctk.IntVar: self.chefNumber is used to share the value
@@ -141,3 +144,10 @@ class View(ctk.CTkFrame):
         self.controller = controller
         self.controller.displayBonuses()
         self.controller.getCheckBoxData()
+
+    def getProperties(self) -> dict[str: str]:
+        return {
+            "felyneNumber": str(self.chefNumber.get()),
+            "orderBy": str(self.sortBy.get() if self.sortBy.get() != "Order By" else None),
+            "showNoEffect": str(self.noEffect.get())
+        }

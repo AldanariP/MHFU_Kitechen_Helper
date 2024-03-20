@@ -98,6 +98,12 @@ class Bonus:
     def toDisplayList(self) -> tuple[str, str, str]:
         return self.ingredient1, self.ingredient2, self.effect
 
+    def isCookableWith(self, ingredientList: list[IngredientType]) -> bool:
+        if self.ingredient1 == self.ingredient2:
+            return ingredientList.count(self.ingredient1) >= 2
+        else:
+            return self.ingredient1 in ingredientList and self.ingredient2 in ingredientList
+
     def __str__(self):
         return (f"{self.chefNumber} : {self.ingredient1} + {self.ingredient2} => {self.effect} ({self.buffType1}"
                 + (f", {self.buffType2})" if self.hasDoubleEffect() else ')'))

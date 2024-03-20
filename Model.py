@@ -1,6 +1,5 @@
 import json
 
-import Ingredients
 from Bonus import *
 from Ingredients import *
 
@@ -11,11 +10,16 @@ class Model:
         self.ingredientList: list[Ingredient] = []
         self.bonusList: list[Bonus] = []
 
-    def getBonus(self, chefNumber: int, orderBy: BuffType = None, showNoEffect: bool = False) -> list[Bonus]:
-        resultBonuses = [x for x in self.bonusList if x.chefNumber == chefNumber]
+    def getBonus(self, chefNumber: int,
+                 ingredientList: list[IngredientType],
+                 orderBy: BuffType = None,
+                 showNoEffect: bool = False) -> list[Bonus]:
+
+        resultBonuses = [bonus for bonus in self.bonusList
+                         if bonus.chefNumber == chefNumber and bonus.isCookableWith(ingredientList)]
 
         if not showNoEffect:  # if show effect is True -> filter No Effect
-            resultBonuses = [x for x in resultBonuses if not x.isOfBuffType(BuffType.NOEFFECT)]
+            resultBonuses = [bonus for bonus in resultBonuses if not bonus.isOfBuffType(BuffType.NOEFFECT)]
 
         if orderBy is not None:
             for bonus in resultBonuses:
@@ -28,10 +32,15 @@ class Model:
 
     def getIngredients(self, chefNumber: int) -> dict[str, list[str]]:  # pretty clear rigth ?
         return {ingredientType: [ingredient.name for ingredient in self.ingredientList
-                                 if ingredient.isAtChefNumber(chefNumber) and ingredient.isOfType(ingredientType)]
+                                 if ingredient.isAtChefNumber(chefNumber)
+                                 and ingredient.isOfType(IngredientType(ingredientType))]
                 for ingredientType in IngredientType}
 
-    def loadIngredientFrom(self, path):  # Python is readable they say...
+    def ingredientTypeOf(self, name: str) -> IngredientType:
+        return next(ingredient.ingredientType for ingredient in self.ingredientList
+                    if ingredient.name == name)
+
+    def loadIngredientFrom(self, path) -> bool:  # Python is readable they say...
         with open(path, "r") as file:
             data = json.load(file)
             for chefNumber in data:
@@ -49,3 +58,4 @@ class Model:
                                           ingr1Bonnus,
                                           ingr2Bonnus,
                                           data[chefNumber]['Bonus'][ingr1Bonnus][ingr2Bonnus]))
+        return True
