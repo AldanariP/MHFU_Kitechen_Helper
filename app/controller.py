@@ -1,9 +1,9 @@
-import customtkinter as ctk
+from customtkinter import CTkCheckBox
 
-from Bonus import bonusFromString
-from Ingredients import IngredientType
-from Model import Model
-from View import View
+from app.bonus import bonusFromString
+from app.ingredients import IngredientType
+from app.model import Model
+from app.view import View
 
 
 class Controller:
@@ -13,14 +13,14 @@ class Controller:
 
     def resetCheckBoxField(self):
         for child in self.view.checkBoxField.winfo_children():
-            if isinstance(child, ctk.CTkCheckBox):
+            if isinstance(child, CTkCheckBox):
                 child.deselect()
         self.displayBonuses()
 
     def getCheckedIngredient(self) -> list[IngredientType]:
         return [self.model.ingredientTypeOf(chkBox.cget('text'))
                 for chkBox in self.view.checkBoxField.winfo_children()
-                if isinstance(chkBox, ctk.CTkCheckBox) and chkBox.get() == 1]
+                if isinstance(chkBox, CTkCheckBox) and chkBox.get() == 1]
 
     def displayBonuses(self):
         bonuses = self.model.getBonus(chefNumber=self.view.chefNumber.get(),

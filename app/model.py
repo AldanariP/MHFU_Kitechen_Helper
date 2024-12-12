@@ -1,7 +1,5 @@
-import json
-
-from Bonus import *
-from Ingredients import *
+from app.bonus import *
+from app.ingredients import *
 
 
 class Model:
@@ -23,7 +21,7 @@ class Model:
 
         if orderBy is not None:
             for bonus in resultBonuses:
-                bonus.setComparator(orderBy)  # because the bonus need to know the type of the comparison in the __lt__
+                bonus.setComparator(orderBy)  # because the bonus needs to know the type of the comparison in the __lt__
             resultBonuses.sort(key=lambda bonus: (bonus.isOfBuffType(orderBy), bonus))
 
         resultBonuses.reverse()  # because it's somehow displayed in the wrong way
@@ -40,22 +38,18 @@ class Model:
         return next(ingredient.ingredientType for ingredient in self.ingredientList
                     if ingredient.name == name)
 
-    def loadIngredientFrom(self, path) -> bool:  # Python is readable they say...
-        with open(path, "r") as file:
-            data = json.load(file)
-            for chefNumber in data:
-                for ingredientType in data[chefNumber]:
-                    if ingredientType in IngredientType:
-                        # Ingredient
-                        for ingredientName in data[chefNumber][ingredientType]:
-                            self.ingredientList.append(Ingredient(ingredientName, chefNumber, ingredientType))
-                    else:
-                        # Bonuses
-                        for ingr1Bonnus in data[chefNumber]['Bonus']:
-                            for ingr2Bonnus in data[chefNumber]['Bonus'][ingr1Bonnus]:
-                                self.bonusList.append(
-                                    Bonus(chefNumber,
-                                          ingr1Bonnus,
-                                          ingr2Bonnus,
-                                          data[chefNumber]['Bonus'][ingr1Bonnus][ingr2Bonnus]))
+    def loadIngredientFrom(self, data) -> bool:  # Python is readable they say...
+        for chefNumber in data:
+            chef_number_data = data[chefNumber]
+            for ingredientType in chef_number_data:
+                if ingredientType in IngredientType:
+                    # Ingredient
+                    for ingredientName in chef_number_data[ingredientType]:
+                        self.ingredientList.append(Ingredient(ingredientName, chefNumber, ingredientType))
+                else:
+                    # Bonuses
+                    bonus = chef_number_data['Bonus']
+                    for ingr1Bonnus in bonus:
+                        for ingr2Bonnus in bonus[ingr1Bonnus]:
+                            self.bonusList.append(Bonus(chefNumber, ingr1Bonnus, ingr2Bonnus, bonus[ingr1Bonnus][ingr2Bonnus]))
         return True

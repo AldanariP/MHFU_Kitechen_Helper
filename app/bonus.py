@@ -1,4 +1,4 @@
-from Ingredients import *
+from app.ingredients import *
 
 
 class BuffType(StrEnum):
@@ -53,7 +53,7 @@ class Bonus:
                 self.buffValue1 = 30 if "Small" in self.effect else 50
             case BuffType.ELEMENTALRES:
                 self.buffValue1 = int(self.effect[-1])
-            case _:
+            case _:  # HEALTH, STAMINA, DEFENSE
                 self.buffValue1 = int(self.effect[0:3])
 
         if self.hasDoubleEffect():

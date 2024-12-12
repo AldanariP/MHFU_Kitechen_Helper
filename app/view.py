@@ -1,13 +1,13 @@
 from tkinter import ttk
 
-import customtkinter as ctk
+from customtkinter import CENTER, CTkButton, NO, CTkFrame, CTkLabel, CTk, IntVar, BooleanVar, CTkComboBox, CTkCheckBox, StringVar
 
-from Model import BuffType
+from app.model import BuffType
 
 
-class View(ctk.CTkFrame):
+class View(CTkFrame):
 
-    def __init__(self, parent: ctk.CTk, config: dict):
+    def __init__(self, parent: CTk, config: dict):
         super().__init__(parent, border_color="red", border_width=5)
         self.grid_configure(row=0, column=0, padx=10, pady=10, sticky="nsew")
         self.grid_rowconfigure(1, weight=1)
@@ -16,56 +16,56 @@ class View(ctk.CTkFrame):
         self.controller = None
 
         # Primary Action Widgets
-        actionFrame = ctk.CTkFrame(master=self)
+        actionFrame = CTkFrame(master=self)
         actionFrame.grid_configure(row=0, column=0, sticky="ew")
 
         # Chef's Number ComboBox
-        comboLabel = ctk.CTkLabel(master=actionFrame, text="Number of Felynes :")
+        comboLabel = CTkLabel(master=actionFrame, text="Number of Felynes :")
         comboLabel.grid_configure(row=0, column=0, padx=5, sticky="w")
 
-        self.chefNumber: ctk.IntVar = ctk.IntVar()
+        self.chefNumber: IntVar = IntVar()
         self.chefNumber.set(config['felyneNumber'])
-        chefNumberBox = ctk.CTkComboBox(master=actionFrame,
-                                        values=["1", "2", "3", "4", "5"],
-                                        variable=self.chefNumber,
-                                        command=self.updateChefNumber)
+        chefNumberBox = CTkComboBox(master=actionFrame,
+                                    values=["1", "2", "3", "4", "5"],
+                                    variable=self.chefNumber,
+                                    command=self.updateChefNumber)
         chefNumberBox.grid_configure(row=0, column=1, sticky="w")
 
         # Reset Button
-        resetButton = ctk.CTkButton(master=actionFrame, text="Reset", width=50,
-                                    command=self.resetCheckBoxField)
+        resetButton = CTkButton(master=actionFrame, text="Reset", width=50,
+                                command=self.resetCheckBoxField)
         resetButton.grid_configure(row=0, column=2, padx=20, sticky="w")
 
         # Checkbox Fields
-        self.checkBoxField = ctk.CTkFrame(master=self, width=350)
+        self.checkBoxField = CTkFrame(master=self, width=350)
         self.checkBoxField.grid_configure(row=1, column=0, sticky="nsew")
 
         # Result Filters
-        resultActionFrame = ctk.CTkFrame(master=self)
+        resultActionFrame = CTkFrame(master=self)
         resultActionFrame.grid_configure(row=0, column=1, sticky="ew")
 
-        self.sortBy: ctk.StringVar = ctk.StringVar()
-        filterBox = ctk.CTkComboBox(master=resultActionFrame,
-                                    values=list(BuffType),
-                                    variable=self.sortBy,
-                                    command=self.sortBuffs,
-                                    state="readonly")
+        self.sortBy: StringVar = StringVar()
+        filterBox = CTkComboBox(master=resultActionFrame,
+                                values=list(BuffType),
+                                variable=self.sortBy,
+                                command=self.sortBuffs,
+                                state="readonly")
         filterBox.grid_configure(row=0, column=1)
-        if config['orderBy'] != "None":
+        if config['orderBy'] is not None:
             self.sortBy.set(config['orderBy'])
         else:
             filterBox.set('Order By')
 
-        self.noEffect: ctk.BooleanVar = ctk.BooleanVar()
-        self.noEffect.set(bool(config['showNoEffect']))
-        noEffectCheckBox = ctk.CTkCheckBox(master=resultActionFrame,
-                                           text="Show \"No Effect\" Buff",
-                                           variable=self.noEffect,
-                                           command=self.updateBonuses)
+        self.noEffect: BooleanVar = BooleanVar()
+        self.noEffect.set(config['showNoEffect'])
+        noEffectCheckBox = CTkCheckBox(master=resultActionFrame,
+                                       text="Show \"No Effect\" Buff",
+                                       variable=self.noEffect,
+                                       command=self.updateBonuses)
         noEffectCheckBox.grid_configure(row=0, column=2, padx=20)
 
         # Result Frame
-        resultField = ctk.CTkFrame(master=self, fg_color="gray14")
+        resultField = CTkFrame(master=self, fg_color="gray14")
         resultField.grid_configure(row=1, column=1, rowspan=2, sticky="nsew")
 
         # Custom Treeview Style (non ckt component)
@@ -88,14 +88,14 @@ class View(ctk.CTkFrame):
 
         self.resultTable['columns'] = ("Ingredient 1", "Ingredient 2", "Effect")
 
-        self.resultTable.column("#0", width=0, stretch=ctk.NO)  # hide first column
-        self.resultTable.column("Ingredient 1", anchor=ctk.CENTER, minwidth=120)
-        self.resultTable.column("Ingredient 2", anchor=ctk.CENTER, minwidth=120)
-        self.resultTable.column("Effect", anchor=ctk.CENTER, minwidth=300)
+        self.resultTable.column("#0", width=0, stretch=NO)  # hide first column
+        self.resultTable.column("Ingredient 1", anchor=CENTER, minwidth=120)
+        self.resultTable.column("Ingredient 2", anchor=CENTER, minwidth=120)
+        self.resultTable.column("Effect", anchor=CENTER, minwidth=300)
 
-        self.resultTable.heading("Ingredient 1", text="Ingredient 1", anchor=ctk.CENTER)
-        self.resultTable.heading("Ingredient 2", text="Ingredient 2", anchor=ctk.CENTER)
-        self.resultTable.heading("Effect", text="Effect", anchor=ctk.CENTER)
+        self.resultTable.heading("Ingredient 1", text="Ingredient 1", anchor=CENTER)
+        self.resultTable.heading("Ingredient 2", text="Ingredient 2", anchor=CENTER)
+        self.resultTable.heading("Effect", text="Effect", anchor=CENTER)
 
         self.resultTable.tag_configure("RobFont", font=("roboto", 10))
 
@@ -121,10 +121,10 @@ class View(ctk.CTkFrame):
                 else widgetCount - cutLength - (self.checkBoxField.grid_size()[1] - cutLength)  # Offset magic
             colIndex = 0 if widgetCount <= cutLength else 1
 
-            label = ctk.CTkLabel(master=self.checkBoxField, text=ingredientType + " :")
+            label = CTkLabel(master=self.checkBoxField, text=ingredientType + " :")
             label.grid_configure(row=rowIndex, column=colIndex, sticky="w")
             for index, ingredient in enumerate(ingredientList):
-                checkbox = ctk.CTkCheckBox(self.checkBoxField, text=ingredient, command=self.updateBonuses)
+                checkbox = CTkCheckBox(self.checkBoxField, text=ingredient, command=self.updateBonuses)
                 checkbox.grid_configure(row=rowIndex + index + 1, column=colIndex, sticky="w", padx=20)
 
     def updateChefNumber(self, unused: str):  # because ctk.IntVar: self.chefNumber is used to share the value
