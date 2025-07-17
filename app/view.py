@@ -1,6 +1,7 @@
 from tkinter import ttk
 
-from customtkinter import CENTER, CTkButton, NO, CTkFrame, CTkLabel, CTk, IntVar, BooleanVar, CTkComboBox, CTkCheckBox, StringVar
+from customtkinter import CTkButton, CTkFrame, CTkLabel, CTk, IntVar, BooleanVar, CTkComboBox, CTkCheckBox, StringVar, NO, \
+    CENTER
 
 from app.model import BuffType
 
@@ -21,7 +22,7 @@ class View(CTkFrame):
 
         # Chef's Number ComboBox
         comboLabel = CTkLabel(master=actionFrame, text="Number of Felynes :")
-        comboLabel.grid_configure(row=0, column=0, padx=5, sticky="w")
+        comboLabel.grid_configure(row=0, column=0, padx=10, sticky="w")
 
         self.chefNumber: IntVar = IntVar()
         self.chefNumber.set(config['felyneNumber'])
@@ -32,12 +33,14 @@ class View(CTkFrame):
         chefNumberBox.grid_configure(row=0, column=1, sticky="w")
 
         # Reset Button
-        resetButton = CTkButton(master=actionFrame, text="Reset", width=50,
+        resetButton = CTkButton(master=actionFrame,
+                                text="Reset",
+                                width=50,
                                 command=self.resetCheckBoxField)
         resetButton.grid_configure(row=0, column=2, padx=20, sticky="w")
 
         # Checkbox Fields
-        self.checkBoxField = CTkFrame(master=self, width=350)
+        self.checkBoxField = CTkFrame(master=self)
         self.checkBoxField.grid_configure(row=1, column=0, sticky="nsew")
 
         # Result Filters
@@ -65,8 +68,9 @@ class View(CTkFrame):
         noEffectCheckBox.grid_configure(row=0, column=2, padx=20)
 
         # Result Frame
-        resultField = CTkFrame(master=self, fg_color="gray14")
-        resultField.grid_configure(row=1, column=1, rowspan=2, sticky="nsew")
+        self.resultField = CTkFrame(master=self, fg_color="gray14")
+        self.resultField.grid_configure(row=1, column=1, rowspan=2, sticky="nswe")
+        self.resultField.bind("<Configure>", self.updateResultTableWidth)
 
         # Custom Treeview Style (non ckt component)
         self.style = ttk.Style(self)
@@ -83,8 +87,8 @@ class View(CTkFrame):
                              font=("roboto", 12, "bold"))
 
         # Treeview
-        self.resultTable = ttk.Treeview(master=resultField, style="Custom.Treeview")
-        self.resultTable.grid_configure(row=0, column=0, sticky="nsew")
+        self.resultTable = ttk.Treeview(master=self.resultField, style="Custom.Treeview")
+        self.resultTable.grid_configure(row=0, column=0)
 
         self.resultTable['columns'] = ("Ingredient 1", "Ingredient 2", "Effect")
 
@@ -98,6 +102,9 @@ class View(CTkFrame):
         self.resultTable.heading("Effect", text="Effect", anchor=CENTER)
 
         self.resultTable.tag_configure("RobFont", font=("roboto", 10))
+
+    def updateResultTableWidth(self, _):
+        self.resultTable.place(x=0, y=0, width=self.resultField.winfo_width())
 
     def displayBonuses(self, entries: list[tuple[str, str, str]]):
         self.resultTable.delete(*self.resultTable.get_children())
@@ -122,7 +129,7 @@ class View(CTkFrame):
             colIndex = 0 if widgetCount <= cutLength else 1
 
             label = CTkLabel(master=self.checkBoxField, text=ingredientType + " :")
-            label.grid_configure(row=rowIndex, column=colIndex, sticky="w")
+            label.grid_configure(row=rowIndex, column=colIndex, sticky="w", padx=10)
             for index, ingredient in enumerate(ingredientList):
                 checkbox = CTkCheckBox(self.checkBoxField, text=ingredient, command=self.updateBonuses)
                 checkbox.grid_configure(row=rowIndex + index + 1, column=colIndex, sticky="w", padx=20)

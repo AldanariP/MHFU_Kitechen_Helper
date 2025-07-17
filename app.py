@@ -11,7 +11,7 @@ class App(CTk):
         super().__init__()
 
         self.title("MHFU Kitechen Helper")
-        self.minsize(980, 400)
+        self.minsize(500, 400)
         self.grid_columnconfigure(0, weight=1)
         self.grid_rowconfigure(0, weight=1)
         self.view = None
