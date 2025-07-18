@@ -67,9 +67,6 @@ class Bonus:
                 case _:
                     self.buffValue2 = int(self.effect[self.effect.find('&') + 1:].lstrip()[:3])
 
-        if self.buffType1 is None or (self.hasDoubleEffect() and self.buffType2 is None):
-            raise ValueError(f"Failed to Parse the effect : '{effect}'")
-
     def hasDoubleEffect(self):
         return hasattr(self, "buffType2")
 
