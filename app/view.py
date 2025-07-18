@@ -8,7 +8,7 @@ from app.model import BuffType
 class View(CTkFrame):
 
     def __init__(self, parent: CTk, config: dict):
-        super().__init__(parent, border_color="red", border_width=5)
+        super().__init__(parent)
         self.grid_configure(row=0, column=0, padx=10, pady=10, sticky="nsew")
         self.grid_rowconfigure(1, weight=1)
         self.grid_columnconfigure(1, weight=1)
