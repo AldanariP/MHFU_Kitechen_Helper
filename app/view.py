@@ -23,7 +23,7 @@ class View(CTkFrame):
         comboLabel = CTkLabel(master=actionFrame, text="Number of Felynes :")
         comboLabel.grid_configure(row=0, column=0, padx=10, sticky="w")
 
-        self.chefNumber: IntVar = IntVar()
+        self.chefNumber = IntVar()
         self.chefNumber.set(config['felyneNumber'])
         chefNumberBox = CTkComboBox(master=actionFrame,
                                     values=["1", "2", "3", "4", "5"],
@@ -46,7 +46,7 @@ class View(CTkFrame):
         resultActionFrame = CTkFrame(master=self)
         resultActionFrame.grid_configure(row=0, column=1, sticky="ew")
 
-        self.sortBy: StringVar = StringVar()
+        self.sortBy = StringVar()
         filterBox = CTkComboBox(master=resultActionFrame,
                                 values=list(BuffType),
                                 variable=self.sortBy,
@@ -58,7 +58,7 @@ class View(CTkFrame):
         else:
             filterBox.set('Order By')
 
-        self.noEffect: BooleanVar = BooleanVar()
+        self.noEffect = BooleanVar()
         self.noEffect.set(config['showNoEffect'])
         noEffectCheckBox = CTkCheckBox(master=resultActionFrame,
                                        text="Show \"No Effect\" Buff",

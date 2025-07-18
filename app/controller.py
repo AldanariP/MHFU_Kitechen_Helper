@@ -8,8 +8,8 @@ from app.view import View
 
 class Controller:
     def __init__(self, model: Model, view: View):
-        self.model: Model = model
-        self.view: View = view
+        self.model = model
+        self.view = view
 
     def resetCheckBoxField(self):
         for child in self.view.checkBoxField.winfo_children():

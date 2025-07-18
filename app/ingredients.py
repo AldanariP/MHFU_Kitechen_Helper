@@ -13,9 +13,9 @@ class IngredientType(StrEnum):
 
 class Ingredient:
     def __init__(self, name: str, chefNumber: int, ingredientType: IngredientType):
-        self.name: str = name
-        self.chefNumber: int = int(chefNumber)
-        self.ingredientType: IngredientType = ingredientType
+        self.name = name
+        self.chefNumber = int(chefNumber)
+        self.ingredientType = ingredientType
 
     def isOfType(self, ingredientType: IngredientType):
         return self.ingredientType == ingredientType

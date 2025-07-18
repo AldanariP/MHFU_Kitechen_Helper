@@ -33,17 +33,17 @@ class Bonus:
 
     def __init__(self, chefNumber: int, ingredient1: IngredientType, ingredient2: IngredientType, effect: str):
         self.chefNumber: int = int(chefNumber)
-        self.ingredient1: IngredientType = ingredient1
-        self.ingredient2: IngredientType = ingredient2
+        self.ingredient1 = ingredient1
+        self.ingredient2 = ingredient2
         self.effect: str = effect
         self.sortedBy = None
         # parse buff type
         try:
             buff1, buff2 = effect.split("&")
-            self.buffType1: BuffType = next((value for key, value in Bonus.buffKeyMap.items() if key in buff1), None)
-            self.buffType2: BuffType = next((value for key, value in Bonus.buffKeyMap.items() if key in buff2), None)
+            self.buffType1 = next((value for key, value in Bonus.buffKeyMap.items() if key in buff1), None)
+            self.buffType2 = next((value for key, value in Bonus.buffKeyMap.items() if key in buff2), None)
         except ValueError:
-            self.buffType1: BuffType = next((value for key, value in Bonus.buffKeyMap.items() if key in effect), None)
+            self.buffType1 = next((value for key, value in Bonus.buffKeyMap.items() if key in effect), None)
 
         # parse buff value
         match self.buffType1:
