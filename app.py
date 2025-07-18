@@ -26,7 +26,6 @@ class App(CTk):
                 controller = Controller(model, self.view)
                 self.view.set_controller(controller)
             else:
-                print("faild to json")
                 error_label = CTkLabel(master=self, text_color="red",
                                        text="Something went wrong while loading json data, please ensure that it is correcly formatted")
                 error_label.grid_configure(column=0, row=0, sticky='nw')
