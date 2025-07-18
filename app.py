@@ -27,7 +27,8 @@ class App(CTk):
                 self.view.set_controller(controller)
             else:
                 error_label = CTkLabel(master=self, text_color="red",
-                                       text="Something went wrong while loading json data, please ensure that it is correcly formatted")
+                                       text="Something went wrong while loading json data,"
+                                            " please ensure that it is correcly formatted")
                 error_label.grid_configure(column=0, row=0, sticky='nw')
 
         except FileNotFoundError as e:
