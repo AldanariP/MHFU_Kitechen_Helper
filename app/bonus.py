@@ -38,11 +38,11 @@ class Bonus:
         self.effect: str = effect
         self.sortedBy = None
         # parse buff type
-        try:
+        if '&' in self.effect:
             buff1, buff2 = effect.split("&")
             self.buffType1 = next((value for key, value in Bonus.buffKeyMap.items() if key in buff1), None)
             self.buffType2 = next((value for key, value in Bonus.buffKeyMap.items() if key in buff2), None)
-        except ValueError:
+        else:
             self.buffType1 = next((value for key, value in Bonus.buffKeyMap.items() if key in effect), None)
 
         # parse buff value
