@@ -1,7 +1,6 @@
 from tkinter import ttk
 
-from customtkinter import CTkButton, CTkFrame, CTkLabel, CTk, IntVar, BooleanVar, CTkComboBox, CTkCheckBox, StringVar, NO, \
-    CENTER
+from customtkinter import CTkButton, CTkFrame, CTkLabel, CTk, IntVar, BooleanVar, CTkComboBox, CTkCheckBox, StringVar
 
 from app.model import BuffType
 
@@ -92,14 +91,14 @@ class View(CTkFrame):
 
         self.resultTable['columns'] = ("Ingredient 1", "Ingredient 2", "Effect")
 
-        self.resultTable.column("#0", width=0, stretch=NO)  # hide first column
-        self.resultTable.column("Ingredient 1", anchor=CENTER, minwidth=120)
-        self.resultTable.column("Ingredient 2", anchor=CENTER, minwidth=120)
-        self.resultTable.column("Effect", anchor=CENTER, minwidth=300)
+        self.resultTable.column("#0", width=0, stretch=False)  # hide first column
+        self.resultTable.column("Ingredient 1", anchor="center", minwidth=120)
+        self.resultTable.column("Ingredient 2", anchor="center", minwidth=120)
+        self.resultTable.column("Effect", anchor="center", minwidth=300)
 
-        self.resultTable.heading("Ingredient 1", text="Ingredient 1", anchor=CENTER)
-        self.resultTable.heading("Ingredient 2", text="Ingredient 2", anchor=CENTER)
-        self.resultTable.heading("Effect", text="Effect", anchor=CENTER)
+        self.resultTable.heading("Ingredient 1", text="Ingredient 1", anchor="center")
+        self.resultTable.heading("Ingredient 2", text="Ingredient 2", anchor="center")
+        self.resultTable.heading("Effect", text="Effect", anchor="center")
 
         self.resultTable.tag_configure("RobFont", font=("roboto", 10))
 
