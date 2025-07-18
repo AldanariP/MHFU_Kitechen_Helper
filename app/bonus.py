@@ -54,7 +54,7 @@ class Bonus:
             case BuffType.ELEMENTALRES:
                 self.buffValue1 = int(self.effect[-1])
             case _:  # HEALTH, STAMINA, DEFENSE
-                self.buffValue1 = int(self.effect[0:3])
+                self.buffValue1 = int(self.effect[:3])
 
         if self.hasDoubleEffect():
             match self.buffType2:
@@ -65,7 +65,7 @@ class Bonus:
                 case BuffType.ELEMENTALRES:
                     self.buffValue2 = int(self.effect[-1])
                 case _:
-                    self.buffValue2 = int(self.effect.split("& ")[1][0:3])
+                    self.buffValue2 = int(self.effect[self.effect.find('&') + 1:].lstrip()[:3])
 
         if self.buffType1 is None or (self.hasDoubleEffect() and self.buffType2 is None):
             raise ValueError(f"Failed to Parse the effect : '{effect}'")
