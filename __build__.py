@@ -10,6 +10,7 @@ if __name__ == '__main__':
         '--onefile',
         '--clean',
         '--optimize=2',
+        '--windowed'
     ]
 
     for lang_file in os.scandir(os.path.join(os.getcwd(), 'lang')):
