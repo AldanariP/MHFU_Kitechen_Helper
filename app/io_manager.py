@@ -20,11 +20,13 @@ def load_config() -> dict[str, str]:
     config.setdefault("felyneNumber", "1")
     config.setdefault("orderBy", "None")
     config.setdefault("showNoEffect", "True")
+    config.setdefault("showNegativeBonuses", "True")
 
     return {
         "felyneNumber": int(config.get("felyneNumber").data),
         "orderBy": config.get("orderBy").data if config.get("orderBy").data != "None" else None,
         "showNoEffect": json.loads(config.get("showNoEffect").data.lower()),
+        "showNegativeBonuses": json.loads(config.get("showNegativeBonuses").data.lower()),
     }
 
 
@@ -41,6 +43,7 @@ def save_config(data: dict[str, Any]):
     config["felyneNumber"] = data["felyneNumber"]
     config["orderBy"] = data["orderBy"]
     config["showNoEffect"] = data["showNoEffect"]
+    config["showNegativeBonuses"] = data["showNegativeBonuses"]
 
     with open('config.properties', 'wb') as configFile:
         config.store(configFile, encoding="utf-8")

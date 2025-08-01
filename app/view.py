@@ -66,6 +66,14 @@ class View(CTkFrame):
                                        command=self.updateBonuses)
         noEffectCheckBox.grid_configure(row=0, column=2, padx=20)
 
+        self.negativeBonuses = BooleanVar()
+        self.negativeBonuses.set(config['showNegativeBonuses'])
+        negativeValuesCheckBox = CTkCheckBox(master=resultActionFrame,
+                                             text="Show Negative Buffs",
+                                             variable=self.negativeBonuses,
+                                             command=self.updateBonuses)
+        negativeValuesCheckBox.grid_configure(row=0, column=3, padx=20)
+
         # Result Frame
         self.resultField = CTkFrame(master=self, fg_color="gray14")
         self.resultField.grid_configure(row=1, column=1, rowspan=2, sticky="nswe")
@@ -155,5 +163,6 @@ class View(CTkFrame):
         return {
             "felyneNumber": str(self.chefNumber.get()),
             "orderBy": str(self.sortBy.get() if self.sortBy.get() != "Order By" else None),
-            "showNoEffect": str(self.noEffect.get())
+            "showNoEffect": str(self.noEffect.get()),
+            "showNegativeBonuses": str(self.negativeBonuses.get())
         }

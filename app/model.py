@@ -11,13 +11,17 @@ class Model:
     def getBonus(self, chefNumber: int,
                  ingredientList: list[IngredientType],
                  orderBy: BuffType = None,
-                 showNoEffect: bool = False) -> list[Bonus]:
+                 showNoEffect: bool = False,
+                 showNegativeBonuses: bool = False) -> list[Bonus]:
 
         resultBonuses = [bonus for bonus in self.bonusList
                          if bonus.chefNumber == chefNumber and bonus.isCookableWith(ingredientList)]
 
         if not showNoEffect:  # if show effect is True -> filter No Effect
             resultBonuses = [bonus for bonus in resultBonuses if not bonus.isOfBuffType(BuffType.NOEFFECT)]
+
+        if not showNegativeBonuses:
+            resultBonuses = [bonus for bonus in resultBonuses if not bonus.is_negative()]
 
         if orderBy is not None:
             resultBonuses.sort(key=lambda bonus: bonus.get_score(orderBy))

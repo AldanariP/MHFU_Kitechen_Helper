@@ -26,7 +26,8 @@ class Controller:
         bonuses = self.model.getBonus(chefNumber=self.view.chefNumber.get(),
                                       ingredientList=self.getCheckedIngredient(),
                                       orderBy=bonusFromString(self.view.sortBy.get()),
-                                      showNoEffect=self.view.noEffect.get())
+                                      showNoEffect=self.view.noEffect.get(),
+                                      showNegativeBonuses=self.view.negativeBonuses.get())
         self.view.displayBonuses([bonus.toDisplayList() for bonus in bonuses])
 
     def getCheckBoxData(self):
