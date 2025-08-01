@@ -1,0 +1,14 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+customtkinter = "==5.2.2"
+jproperties = "==2.1.2"
+
+[dev-packages]
+pyinstaller = "==6.14.2"
+
+[requires]
+python_version = "3.13"
