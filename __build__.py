@@ -1,17 +1,21 @@
-import shutil
+import os
+import platform
 
 import PyInstaller.__main__
 
 if __name__ == '__main__':
-    output_path = "dist"
-
-    PyInstaller.__main__.run([
+    args = [
         'app.py',
         '--name=MHFUKitchenHelper',
         '--onefile',
-        f'--distpath=./{output_path}',
-        '--windowed',
         '--clean',
-    ])
+        '--optimize=2',
+    ]
 
-    shutil.copytree("lang", f"{output_path}/lang", dirs_exist_ok=True)
+    for lang_file in os.scandir(os.path.join(os.getcwd(), 'lang')):
+        args.append(f'--add-data={lang_file.path}:lang')
+
+    if platform.system() != 'Windows':
+        args.append('--strip')
+
+    PyInstaller.__main__.run(args)

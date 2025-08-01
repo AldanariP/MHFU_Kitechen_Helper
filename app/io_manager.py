@@ -1,5 +1,6 @@
 import json
 import os
+import sys
 from typing import Any
 
 from jproperties import Properties
@@ -15,7 +16,9 @@ def load_config() -> dict[str, str]:
         with open('config.properties', 'wb') as configFile:
             config.store(configFile, encoding="utf-8")
 
-    config.setdefault("langPath", "lang")
+    config.update({
+        "langPath": os.path.join(getattr(sys, '_MEIPASS', os.path.dirname(os.path.abspath(__file__))), 'lang')
+    })
     config.setdefault("lang", "eng.json")
     config.setdefault("felyneNumber", "1")
     config.setdefault("orderBy", "None")
@@ -44,6 +47,7 @@ def save_config(data: dict[str, Any]):
     config["orderBy"] = data["orderBy"]
     config["showNoEffect"] = data["showNoEffect"]
     config["showNegativeBonuses"] = data["showNegativeBonuses"]
+    config.pop('langPath')
 
     with open('config.properties', 'wb') as configFile:
         config.store(configFile, encoding="utf-8")
