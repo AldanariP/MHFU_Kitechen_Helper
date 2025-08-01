@@ -20,9 +20,7 @@ class Model:
             resultBonuses = [bonus for bonus in resultBonuses if not bonus.isOfBuffType(BuffType.NOEFFECT)]
 
         if orderBy is not None:
-            for bonus in resultBonuses:
-                bonus.setComparator(orderBy)  # because the bonus needs to know the type of the comparison in the __lt__
-            resultBonuses.sort(key=lambda bonus: (bonus.isOfBuffType(orderBy), bonus))
+            resultBonuses.sort(key=lambda bonus: bonus.get_score(orderBy))
 
         resultBonuses.reverse()  # because it's somehow displayed in the wrong way
 

@@ -73,22 +73,6 @@ class Bonus:
     def isOfBuffType(self, buffType: BuffType) -> bool:
         return self.buffType1 == buffType or (self.hasDoubleEffect() and self.buffType2 == buffType)
 
-    def valueOfBuffType(self, buffType: BuffType) -> int:
-        if not self.isOfBuffType(buffType):
-            raise ValueError(f"Can't retreive BuffValue for Bonus : {buffType} in {self.effect}")
-        if self.hasDoubleEffect():
-            return self.buffValue1 if self.buffType1 == buffType else self.buffValue2
-        else:
-            # not the intended way of using this function
-            # but since the condition is evaluated anyway if we return or raise ValueError, migth as well return
-            return self.buffValue1
-
-    def totalValue(self) -> int:
-        return self.buffValue1 + (self.buffValue2 if self.hasDoubleEffect() else 0)
-
-    def setComparator(self, buffType: BuffType):
-        self.sortedBy = buffType
-
     def isAvailableForChefNumber(self, chefNumber: int) -> bool:
         return self.chefNumber == chefNumber
 
@@ -100,6 +84,16 @@ class Bonus:
             return ingredientList.count(self.ingredient1) >= 2
         else:
             return self.ingredient1 in ingredientList and self.ingredient2 in ingredientList
+
+    def get_score(self, buffType: BuffType) -> int:
+        if self.buffValue1 < 0:
+            return -1
+        elif self.buffType1 == buffType:
+            return self.buffValue1 * 100 + (self.buffValue2 if self.hasDoubleEffect() else 0)
+        elif self.hasDoubleEffect() and self.buffType2 == buffType:
+            return self.buffValue2 * 100 + self.buffValue1
+        else:
+            return 0
 
     def __str__(self):
         return (f"{self.chefNumber} : {self.ingredient1} + {self.ingredient2} => {self.effect} ({self.buffType1}"
@@ -114,18 +108,4 @@ class Bonus:
     def __lt__(self, other) -> bool:
         if not isinstance(other, Bonus):
             return False
-        if self.hasDoubleEffect() or self.hasDoubleEffect():
-
-            if self.isOfBuffType(self.sortedBy) and other.isOfBuffType(self.sortedBy):  # 1 1
-                return self.valueOfBuffType(self.sortedBy) < other.valueOfBuffType(self.sortedBy)
-
-            elif self.isOfBuffType(self.sortedBy):                                      # 1 0
-                return self.valueOfBuffType(self.sortedBy) < other.buffValue1
-
-            elif other.isOfBuffType(self.sortedBy):                                     # 0 1
-                return self.buffValue1 < other.valueOfBuffType(self.sortedBy)
-
-            else:                                                                       # 0 0
-                return self.totalValue() < other.totalValue()
-        else:
-            return self.buffValue1 < other.buffValue1
+        return self.get_score(self.sortedBy) < other.get_score(self.sortedBy)
