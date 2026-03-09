@@ -1,5 +1,5 @@
-from app.bonus import *
-from app.ingredients import *
+from app.bonus import BuffType, Bonus
+from app.ingredients import Ingredient, IngredientType
 
 
 class Model:
@@ -53,5 +53,6 @@ class Model:
                     bonus = chef_number_data['Bonus']
                     for ingr1Bonnus in bonus:
                         for ingr2Bonnus in bonus[ingr1Bonnus]:
-                            self.bonusList.append(Bonus(chefNumber, ingr1Bonnus, ingr2Bonnus, bonus[ingr1Bonnus][ingr2Bonnus]))
+                            self.bonusList.append(
+                                Bonus(chefNumber, ingr1Bonnus, ingr2Bonnus, bonus[ingr1Bonnus][ingr2Bonnus]))
         return True

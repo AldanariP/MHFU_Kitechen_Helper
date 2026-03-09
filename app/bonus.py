@@ -1,4 +1,5 @@
-from app.ingredients import *
+from enum import StrEnum
+from app.ingredients import IngredientType
 
 
 class BuffType(StrEnum):
