@@ -25,75 +25,75 @@ class View(CTkFrame):
         self.controller = None
 
         # Primary Action Widgets
-        actionFrame = CTkFrame(master=self)
-        actionFrame.grid_configure(row=0, column=0, sticky="ew")
+        action_frame = CTkFrame(master=self)
+        action_frame.grid_configure(row=0, column=0, sticky="ew")
 
         # Chef's Number ComboBox
-        comboLabel = CTkLabel(master=actionFrame, text="Number of Felynes :")
-        comboLabel.grid_configure(row=0, column=0, padx=10, sticky="w")
+        combo_label = CTkLabel(master=action_frame, text="Number of Felynes :")
+        combo_label.grid_configure(row=0, column=0, padx=10, sticky="w")
 
-        self.chefNumber = IntVar()
-        self.chefNumber.set(config["felyneNumber"])
-        chefNumberBox = CTkComboBox(
-            master=actionFrame,
+        self.chef_number_var = IntVar()
+        self.chef_number_var.set(config["felyneNumber"])
+        chef_number_combo_box = CTkComboBox(
+            master=action_frame,
             values=["1", "2", "3", "4", "5"],
-            variable=self.chefNumber,
-            command=self.updateChefNumber,
+            variable=self.chef_number_var,
+            command=self.update_chef_number_command,
         )
-        chefNumberBox.grid_configure(row=0, column=1, sticky="w")
+        chef_number_combo_box.grid_configure(row=0, column=1, sticky="w")
 
         # Reset Button
-        resetButton = CTkButton(
-            master=actionFrame, text="Reset", width=50, command=self.resetCheckBoxField
+        reset_button = CTkButton(
+            master=action_frame, text="Reset", width=50, command=self.reset_check_box_field_command
         )
-        resetButton.grid_configure(row=0, column=2, padx=20, sticky="w")
+        reset_button.grid_configure(row=0, column=2, padx=20, sticky="w")
 
         # Checkbox Fields
-        self.checkBoxField = CTkFrame(master=self)
-        self.checkBoxField.grid_configure(row=1, column=0, sticky="nsew")
+        self.check_box_field = CTkFrame(master=self)
+        self.check_box_field.grid_configure(row=1, column=0, sticky="nsew")
 
         # Result Filters
-        resultActionFrame = CTkFrame(master=self)
-        resultActionFrame.grid_configure(row=0, column=1, sticky="ew")
+        result_action_frame = CTkFrame(master=self)
+        result_action_frame.grid_configure(row=0, column=1, sticky="ew")
 
-        self.sortBy = StringVar()
-        filterBox = CTkComboBox(
-            master=resultActionFrame,
+        self.sort_by_var = StringVar()
+        filter_box_combo = CTkComboBox(
+            master=result_action_frame,
             values=list(BuffType),
-            variable=self.sortBy,
-            command=self.sortBuffs,
+            variable=self.sort_by_var,
+            command=self.sort_buffs_command,
             state="readonly",
         )
-        filterBox.grid_configure(row=0, column=1)
+        filter_box_combo.grid_configure(row=0, column=1)
         if config["orderBy"] is not None:
-            self.sortBy.set(config["orderBy"])
+            self.sort_by_var.set(config["orderBy"])
         else:
-            filterBox.set("Order By")
+            filter_box_combo.set("Order By")
 
-        self.noEffect = BooleanVar()
-        self.noEffect.set(config["showNoEffect"])
-        noEffectCheckBox = CTkCheckBox(
-            master=resultActionFrame,
+        self.no_effect_var = BooleanVar()
+        self.no_effect_var.set(config["showNoEffect"])
+        no_effect_check_box = CTkCheckBox(
+            master=result_action_frame,
             text='Show "No Effect" Buff',
-            variable=self.noEffect,
-            command=self.updateBonuses,
+            variable=self.no_effect_var,
+            command=self.update_bonuses_command,
         )
-        noEffectCheckBox.grid_configure(row=0, column=2, padx=20)
+        no_effect_check_box.grid_configure(row=0, column=2, padx=20)
 
-        self.negativeBonuses = BooleanVar()
-        self.negativeBonuses.set(config["showNegativeBonuses"])
-        negativeValuesCheckBox = CTkCheckBox(
-            master=resultActionFrame,
+        self.negative_bonuses_var = BooleanVar()
+        self.negative_bonuses_var.set(config["showNegativeBonuses"])
+        negative_values_check_box = CTkCheckBox(
+            master=result_action_frame,
             text="Show Negative Buffs",
-            variable=self.negativeBonuses,
-            command=self.updateBonuses,
+            variable=self.negative_bonuses_var,
+            command=self.update_bonuses_command,
         )
-        negativeValuesCheckBox.grid_configure(row=0, column=3, padx=20)
+        negative_values_check_box.grid_configure(row=0, column=3, padx=20)
 
         # Result Frame
-        self.resultField = CTkFrame(master=self, fg_color="gray14")
-        self.resultField.grid_configure(row=1, column=1, rowspan=2, sticky="nswe")
-        self.resultField.bind("<Configure>", self.updateResultTableWidth)
+        self.result_field_frame = CTkFrame(master=self, fg_color="gray14")
+        self.result_field_frame.grid_configure(row=1, column=1, rowspan=2, sticky="nswe")
+        self.result_field_frame.bind("<Configure>", self.update_result_table_width_callback)
 
         # Custom Treeview Style (non ckt component)
         self.style = ttk.Style(self)
@@ -114,96 +114,96 @@ class View(CTkFrame):
         )
 
         # Treeview
-        self.resultTable = ttk.Treeview(
-            master=self.resultField, style="Custom.Treeview"
+        self.result_table_tree = ttk.Treeview(
+            master=self.result_field_frame, style="Custom.Treeview"
         )
-        self.resultTable.grid_configure(row=0, column=0)
+        self.result_table_tree.grid_configure(row=0, column=0)
 
-        self.resultTable["columns"] = ("Ingredient 1", "Ingredient 2", "Effect")
+        self.result_table_tree["columns"] = ("Ingredient 1", "Ingredient 2", "Effect")
 
-        self.resultTable.column("#0", width=0, stretch=False)  # hide first column
-        self.resultTable.column("Ingredient 1", anchor="center", minwidth=120)
-        self.resultTable.column("Ingredient 2", anchor="center", minwidth=120)
-        self.resultTable.column("Effect", anchor="center", minwidth=300)
+        self.result_table_tree.column("#0", width=0, stretch=False)  # hide first column
+        self.result_table_tree.column("Ingredient 1", anchor="center", minwidth=120)
+        self.result_table_tree.column("Ingredient 2", anchor="center", minwidth=120)
+        self.result_table_tree.column("Effect", anchor="center", minwidth=300)
 
-        self.resultTable.heading("Ingredient 1", text="Ingredient 1", anchor="center")
-        self.resultTable.heading("Ingredient 2", text="Ingredient 2", anchor="center")
-        self.resultTable.heading("Effect", text="Effect", anchor="center")
+        self.result_table_tree.heading("Ingredient 1", text="Ingredient 1", anchor="center")
+        self.result_table_tree.heading("Ingredient 2", text="Ingredient 2", anchor="center")
+        self.result_table_tree.heading("Effect", text="Effect", anchor="center")
 
-        self.resultTable.tag_configure("RobFont", font=("roboto", 10))
+        self.result_table_tree.tag_configure("RobFont", font=("roboto", 10))
 
-    def updateResultTableWidth(self, _):
-        self.resultTable.place(x=0, y=0, width=self.resultField.winfo_width())
+    def update_result_table_width_callback(self, _):
+        self.result_table_tree.place(x=0, y=0, width=self.result_field_frame.winfo_width())
 
-    def displayBonuses(self, entries: list[tuple[str, str, str]]):
-        self.resultTable.delete(*self.resultTable.get_children())
+    def display_bonuses(self, entries: list[tuple[str, str, str]]):
+        self.result_table_tree.delete(*self.result_table_tree.get_children())
 
-        self.resultTable.configure(height=len(entries))
+        self.result_table_tree.configure(height=len(entries))
 
         for entry in entries:
-            self.resultTable.insert(
+            self.result_table_tree.insert(
                 parent="", index="end", values=entry, tags="RobFont"
             )
 
-    def drawCheckBoxField(self, ingredientDict: dict[str, list[str]]):
+    def draw_check_box_field(self, ingredient_dict: dict[str, list[str]]):
 
-        for widgets in self.checkBoxField.winfo_children():
+        for widgets in self.check_box_field.winfo_children():
             widgets.destroy()
 
-        dictLength = sum(
-            len(ingredientList) for ingredientList in ingredientDict.values()
-        ) + len(ingredientDict)
-        cutLength = int(dictLength / 2 if dictLength % 2 == 0 else (dictLength - 1) / 2)
+        dict_length = sum(
+            len(ingredient_list) for ingredient_list in ingredient_dict.values()
+        ) + len(ingredient_dict)
+        cut_length = int(dict_length / 2 if dict_length % 2 == 0 else (dict_length - 1) / 2)
 
-        for ingredientType, ingredientList in ingredientDict.items():
-            widgetCount = len(self.checkBoxField.winfo_children())
-            rowIndex = (
-                widgetCount
-                if widgetCount <= cutLength
-                else widgetCount
-                - cutLength
-                - (self.checkBoxField.grid_size()[1] - cutLength)
+        for ingredient_type, ingredient_list in ingredient_dict.items():
+            widget_count = len(self.check_box_field.winfo_children())
+            row_index = (
+                widget_count
+                if widget_count <= cut_length
+                else widget_count
+                - cut_length
+                - (self.check_box_field.grid_size()[1] - cut_length)
             )  # Offset magic
-            colIndex = 0 if widgetCount <= cutLength else 1
+            col_index = 0 if widget_count <= cut_length else 1
 
-            label = CTkLabel(master=self.checkBoxField, text=ingredientType + " :")
-            label.grid_configure(row=rowIndex, column=colIndex, sticky="w", padx=10)
-            for index, ingredient in enumerate(ingredientList):
+            label = CTkLabel(master=self.check_box_field, text=ingredient_type + " :")
+            label.grid_configure(row=row_index, column=col_index, sticky="w", padx=10)
+            for index, ingredient in enumerate(ingredient_list):
                 checkbox = CTkCheckBox(
-                    self.checkBoxField, text=ingredient, command=self.updateBonuses
+                    self.check_box_field, text=ingredient, command=self.update_bonuses_command
                 )
                 checkbox.grid_configure(
-                    row=rowIndex + index + 1, column=colIndex, sticky="w", padx=20
+                    row=row_index + index + 1, column=col_index, sticky="w", padx=20
                 )
 
-    def updateChefNumber(
+    def update_chef_number_command(
         self, unused: str
-    ):  # because ctk.IntVar: self.chefNumber is used to share the value
-        self.controller.getCheckBoxData()
-        self.controller.displayBonuses()
+    ):  # because ctk.IntVar: self.chef_number is used to share the value
+        self.controller.get_check_box_data()
+        self.controller.display_bonuses()
 
-    def resetCheckBoxField(self):
-        self.controller.resetCheckBoxField()
+    def reset_check_box_field_command(self):
+        self.controller.reset_check_box_field()
 
-    def sortBuffs(
+    def sort_buffs_command(
         self, unused: str
-    ):  # because ctk.IntVar: self.chefNumber is used to share the value
-        self.controller.displayBonuses()
+    ):  # because ctk.IntVar: self.chef_number is used to share the value
+        self.controller.display_bonuses()
 
-    def updateBonuses(self):
-        self.controller.displayBonuses()
+    def update_bonuses_command(self):
+        self.controller.display_bonuses()
 
     def set_controller(self, controller):
         self.controller = controller
-        self.controller.displayBonuses()
-        self.controller.getCheckBoxData()
+        self.controller.display_bonuses()
+        self.controller.get_check_box_data()
 
-    def getProperties(self) -> dict[str:str]:
+    def get_properties_dict(self) -> dict[str:str]:
         return {
-            "felyneNumber": str(self.chefNumber.get()),
+            "felyneNumber": str(self.chef_number_var.get()),
             "orderBy": str(
-                self.sortBy.get() if self.sortBy.get() != "Order By" else None
+                self.sort_by_var.get() if self.sort_by_var.get() != "Order By" else None
             ),
-            "showNoEffect": str(self.noEffect.get()),
-            "showNegativeBonuses": str(self.negativeBonuses.get()),
+            "showNoEffect": str(self.no_effect_var.get()),
+            "showNegativeBonuses": str(self.negative_bonuses_var.get()),
         }

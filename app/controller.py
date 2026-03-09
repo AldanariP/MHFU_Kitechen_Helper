@@ -1,6 +1,6 @@
 from customtkinter import CTkCheckBox
 
-from app.bonus import bonusFromString
+from app.bonus import bonus_from_string
 from app.ingredients import IngredientType
 from app.model import Model
 from app.view import View
@@ -11,30 +11,30 @@ class Controller:
         self.model = model
         self.view = view
 
-    def resetCheckBoxField(self):
-        for child in self.view.checkBoxField.winfo_children():
+    def reset_check_box_field(self):
+        for child in self.view.check_box_field.winfo_children():
             if isinstance(child, CTkCheckBox):
                 child.deselect()
-        self.displayBonuses()
+        self.display_bonuses()
 
-    def getCheckedIngredient(self) -> list[IngredientType]:
+    def get_checked_ingredient(self) -> list[IngredientType]:
         return [
-            self.model.ingredientTypeOf(chkBox.cget("text"))
-            for chkBox in self.view.checkBoxField.winfo_children()
+            self.model.ingredient_type_of(chkBox.cget("text"))
+            for chkBox in self.view.check_box_field.winfo_children()
             if isinstance(chkBox, CTkCheckBox) and chkBox.get() == 1
         ]
 
-    def displayBonuses(self):
-        bonuses = self.model.getBonus(
-            chefNumber=self.view.chefNumber.get(),
-            ingredientList=self.getCheckedIngredient(),
-            orderBy=bonusFromString(self.view.sortBy.get()),
-            showNoEffect=self.view.noEffect.get(),
-            showNegativeBonuses=self.view.negativeBonuses.get(),
+    def display_bonuses(self):
+        bonuses = self.model.get_bonus(
+            chef_number=self.view.chef_number_var.get(),
+            ingredient_list=self.get_checked_ingredient(),
+            order_by=bonus_from_string(self.view.sort_by_var.get()),
+            show_no_effect=self.view.no_effect_var.get(),
+            show_negative_bonuses=self.view.negative_bonuses_var.get(),
         )
-        self.view.displayBonuses([bonus.toDisplayList() for bonus in bonuses])
+        self.view.display_bonuses([bonus.to_display_list() for bonus in bonuses])
 
-    def getCheckBoxData(self):
-        self.view.drawCheckBoxField(
-            self.model.getIngredients(self.view.chefNumber.get())
+    def get_check_box_data(self):
+        self.view.draw_check_box_field(
+            self.model.get_ingredients(self.view.chef_number_var.get())
         )

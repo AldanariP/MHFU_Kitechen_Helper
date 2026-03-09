@@ -11,7 +11,7 @@ class BuffType(StrEnum):
     HEALTH = "Health"
 
 
-def bonusFromString(string: str):  # kinda stupid but it works
+def bonus_from_string(string: str):  # kinda stupid but it works
     return {
         "No Effect": BuffType.NOEFFECT,
         "Defense": BuffType.DEFENSE,
@@ -23,7 +23,7 @@ def bonusFromString(string: str):  # kinda stupid but it works
 
 
 class Bonus:
-    buffKeyMap = {
+    buff_key_map = {
         "Health": BuffType.HEALTH,
         "Stamina": BuffType.STAMINA,
         "Attack": BuffType.ATTACK,
@@ -34,95 +34,95 @@ class Bonus:
 
     def __init__(
         self,
-        chefNumber: int,
+        chef_number: int,
         ingredient1: IngredientType,
         ingredient2: IngredientType,
         effect: str,
     ):
-        self.chefNumber: int = int(chefNumber)
+        self.chef_number: int = int(chef_number)
         self.ingredient1 = ingredient1
         self.ingredient2 = ingredient2
         self.effect: str = effect
-        self.sortedBy = None
+        self.sorted_by_type = None
         # parse buff type
         if "&" in self.effect:
             buff1, buff2 = effect.split("&")
-            self.buffType1 = next(
-                (value for key, value in Bonus.buffKeyMap.items() if key in buff1), None
+            self.buff_type_1 = next(
+                (value for key, value in Bonus.buff_key_map.items() if key in buff1), None
             )
-            self.buffType2 = next(
-                (value for key, value in Bonus.buffKeyMap.items() if key in buff2), None
+            self.buff_type_2 = next(
+                (value for key, value in Bonus.buff_key_map.items() if key in buff2), None
             )
         else:
-            self.buffType1 = next(
-                (value for key, value in Bonus.buffKeyMap.items() if key in effect),
+            self.buff_type_1 = next(
+                (value for key, value in Bonus.buff_key_map.items() if key in effect),
                 None,
             )
 
         # parse buff value
-        match self.buffType1:
+        match self.buff_type_1:
             case BuffType.NOEFFECT:
-                self.buffValue1 = 0
+                self.buff_value_1 = 0
             case BuffType.ATTACK:
-                self.buffValue1 = 30 if "Small" in self.effect else 50
+                self.buff_value_1 = 30 if "Small" in self.effect else 50
             case BuffType.ELEMENTALRES:
-                self.buffValue1 = int(self.effect[-1])
+                self.buff_value_1 = int(self.effect[-1])
             case _:  # HEALTH, STAMINA, DEFENSE
-                self.buffValue1 = int(self.effect[:3])
+                self.buff_value_1 = int(self.effect[:3])
 
-        if self.hasDoubleEffect():
-            match self.buffType2:
+        if self.has_double_effect():
+            match self.buff_type_2:
                 case BuffType.NOEFFECT:
-                    self.buffValue2 = 0
+                    self.buff_value_2 = 0
                 case BuffType.ATTACK:
-                    self.buffValue2 = 30 if "Small" in self.effect else 50
+                    self.buff_value_2 = 30 if "Small" in self.effect else 50
                 case BuffType.ELEMENTALRES:
-                    self.buffValue2 = int(self.effect[-1])
+                    self.buff_value_2 = int(self.effect[-1])
                 case _:
-                    self.buffValue2 = int(
+                    self.buff_value_2 = int(
                         self.effect[self.effect.find("&") + 1 :].lstrip()[:3]
                     )
 
-    def hasDoubleEffect(self):
-        return hasattr(self, "buffType2")
+    def has_double_effect(self):
+        return hasattr(self, "buff_type_2")
 
-    def isOfBuffType(self, buffType: BuffType) -> bool:
-        return self.buffType1 == buffType or (
-            self.hasDoubleEffect() and self.buffType2 == buffType
+    def is_of_buff_type(self, buff_type: BuffType) -> bool:
+        return self.buff_type_1 == buff_type or (
+                self.has_double_effect() and self.buff_type_2 == buff_type
         )
 
-    def isAvailableForChefNumber(self, chefNumber: int) -> bool:
-        return self.chefNumber == chefNumber
+    def is_available_for_chef_number(self, chef_number: int) -> bool:
+        return self.chef_number == chef_number
 
     def is_negative(self):
-        return self.buffValue1 < 0
+        return self.buff_value_1 < 0
 
-    def toDisplayList(self) -> tuple[str, str, str]:
+    def to_display_list(self) -> tuple[str, str, str]:
         return self.ingredient1, self.ingredient2, self.effect
 
-    def isCookableWith(self, ingredientList: list[IngredientType]) -> bool:
+    def is_cookable_with(self, ingredient_list: list[IngredientType]) -> bool:
         if self.ingredient1 == self.ingredient2:
-            return ingredientList.count(self.ingredient1) >= 2
+            return ingredient_list.count(self.ingredient1) >= 2
         else:
             return (
-                self.ingredient1 in ingredientList
-                and self.ingredient2 in ingredientList
+                    self.ingredient1 in ingredient_list
+                    and self.ingredient2 in ingredient_list
             )
 
-    def get_score(self, buffType: BuffType) -> int:
+    def get_score(self, buff_type: BuffType) -> int:
         if self.is_negative():
             return -1
-        elif self.buffType1 == buffType:
-            return self.buffValue1 * 10 + (
-                self.buffValue2 if self.hasDoubleEffect() else 0
+        elif self.buff_type_1 == buff_type:
+            return self.buff_value_1 * 10 + (
+                self.buff_value_2 if self.has_double_effect() else 0
             )
-        elif self.hasDoubleEffect() and self.buffType2 == buffType:
-            return self.buffValue2 * 10 + self.buffValue1
+        elif self.has_double_effect() and self.buff_type_2 == buff_type:
+            return self.buff_value_2 * 10 + self.buff_value_1
         else:
-            return self.buffValue1 + (self.buffValue2 if self.hasDoubleEffect() else 0)
+            return self.buff_value_1 + (self.buff_value_2 if self.has_double_effect() else 0)
 
     def __str__(self):
         return (
-            f"{self.chefNumber} : {self.ingredient1} + {self.ingredient2} => {self.effect} ({self.buffType1}"
-            + (f", {self.buffType2})" if self.hasDoubleEffect() else ")")
+            f"{self.chef_number} : {self.ingredient1} + {self.ingredient2} => {self.effect} ({self.buff_type_1}"
+            + (f", {self.buff_type_2})" if self.has_double_effect() else ")")
         )

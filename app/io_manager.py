@@ -10,11 +10,11 @@ config = Properties()
 
 def load_config() -> dict[str, str]:
     if os.path.exists("config.properties"):
-        with open("config.properties", "rb") as configFile:
-            config.load(configFile)
+        with open("config.properties", "rb") as config_file:
+            config.load(config_file)
     else:
-        with open("config.properties", "wb") as configFile:
-            config.store(configFile, encoding="utf-8")
+        with open("config.properties", "wb") as config_file:
+            config.store(config_file, encoding="utf-8")
 
     config.update(
         {
@@ -45,8 +45,8 @@ def load_config() -> dict[str, str]:
 def load_data() -> dict[str, Any]:
     lang_file_path = os.path.join(config["langPath"].data, config["lang"].data)
     if os.path.exists(lang_file_path):
-        with open(lang_file_path, "r") as langFile:
-            return json.load(langFile)
+        with open(lang_file_path, "r") as lang_file:
+            return json.load(lang_file)
     else:
         raise FileNotFoundError(f"Could not find language file : {lang_file_path}")
 
@@ -58,5 +58,5 @@ def save_config(data: dict[str, Any]):
     config["showNegativeBonuses"] = data["showNegativeBonuses"]
     config.pop("langPath")
 
-    with open("config.properties", "wb") as configFile:
-        config.store(configFile, encoding="utf-8")
+    with open("config.properties", "wb") as config_file:
+        config.store(config_file, encoding="utf-8")

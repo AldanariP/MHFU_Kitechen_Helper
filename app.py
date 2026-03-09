@@ -21,7 +21,7 @@ class App(CTk):
             data = io_manager.load_data()
             model = Model()
 
-            if model.loadIngredientFrom(data):
+            if model.load_ingredient_from(data):
                 self.view = View(self, configs)
                 controller = Controller(model, self.view)
                 self.view.set_controller(controller)
@@ -40,7 +40,7 @@ class App(CTk):
 
     def save_properties(self):
         if self.view is not None:
-            io_manager.save_config(self.view.getProperties())
+            io_manager.save_config(self.view.get_properties_dict())
 
         app.destroy()
 

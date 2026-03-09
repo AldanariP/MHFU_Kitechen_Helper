@@ -12,16 +12,16 @@ class IngredientType(StrEnum):
 
 
 class Ingredient:
-    def __init__(self, name: str, chefNumber: int, ingredientType: IngredientType):
+    def __init__(self, name: str, chef_number_id: int, ingredient_type_id: IngredientType):
         self.name = name
-        self.chefNumber = int(chefNumber)
-        self.ingredientType = ingredientType
+        self.chef_number_attr = int(chef_number_id)
+        self.ingredient_type_attr = ingredient_type_id
 
-    def isOfType(self, ingredientType: IngredientType):
-        return self.ingredientType == ingredientType
+    def is_of_type(self, ingredient_type_to_check: IngredientType):
+        return self.ingredient_type_attr == ingredient_type_to_check
 
-    def isAtChefNumber(self, chefNumber: int):
-        return self.chefNumber == chefNumber
+    def is_at_chef_number(self, chef_number_to_check: int):
+        return self.chef_number_attr == chef_number_to_check
 
     def __str__(self):
-        return f"{self.name} : {self.ingredientType}, {self.chefNumber}"
+        return f"{self.name} : {self.ingredient_type_attr}, {self.chef_number_attr}"
