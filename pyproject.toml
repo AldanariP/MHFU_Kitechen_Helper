@@ -1,0 +1,15 @@
+[project]
+name = "mhfu-kitechen-helper"
+version = "1.2.0"
+description = "A small python gui app that displays available buffs (and debuffs) for the MHFU kitchen system"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "customtkinter>=5.2.2",
+    "jproperties>=2.1.2",
+]
+
+[dependency-groups]
+dev = [
+    "pyinstaller>=6.19.0",
+]
