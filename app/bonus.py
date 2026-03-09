@@ -18,7 +18,7 @@ def bonusFromString(string: str):  # kinda stupid but it works
         "Elemental Res": BuffType.ELEMENTALRES,
         "Attack": BuffType.ATTACK,
         "Stamina": BuffType.STAMINA,
-        "Health": BuffType.HEALTH
+        "Health": BuffType.HEALTH,
     }.get(string)
 
 
@@ -29,22 +29,35 @@ class Bonus:
         "Attack": BuffType.ATTACK,
         "Res": BuffType.ELEMENTALRES,
         "Defense": BuffType.DEFENSE,
-        "No": BuffType.NOEFFECT
+        "No": BuffType.NOEFFECT,
     }
 
-    def __init__(self, chefNumber: int, ingredient1: IngredientType, ingredient2: IngredientType, effect: str):
+    def __init__(
+        self,
+        chefNumber: int,
+        ingredient1: IngredientType,
+        ingredient2: IngredientType,
+        effect: str,
+    ):
         self.chefNumber: int = int(chefNumber)
         self.ingredient1 = ingredient1
         self.ingredient2 = ingredient2
         self.effect: str = effect
         self.sortedBy = None
         # parse buff type
-        if '&' in self.effect:
+        if "&" in self.effect:
             buff1, buff2 = effect.split("&")
-            self.buffType1 = next((value for key, value in Bonus.buffKeyMap.items() if key in buff1), None)
-            self.buffType2 = next((value for key, value in Bonus.buffKeyMap.items() if key in buff2), None)
+            self.buffType1 = next(
+                (value for key, value in Bonus.buffKeyMap.items() if key in buff1), None
+            )
+            self.buffType2 = next(
+                (value for key, value in Bonus.buffKeyMap.items() if key in buff2), None
+            )
         else:
-            self.buffType1 = next((value for key, value in Bonus.buffKeyMap.items() if key in effect), None)
+            self.buffType1 = next(
+                (value for key, value in Bonus.buffKeyMap.items() if key in effect),
+                None,
+            )
 
         # parse buff value
         match self.buffType1:
@@ -66,13 +79,17 @@ class Bonus:
                 case BuffType.ELEMENTALRES:
                     self.buffValue2 = int(self.effect[-1])
                 case _:
-                    self.buffValue2 = int(self.effect[self.effect.find('&') + 1:].lstrip()[:3])
+                    self.buffValue2 = int(
+                        self.effect[self.effect.find("&") + 1 :].lstrip()[:3]
+                    )
 
     def hasDoubleEffect(self):
         return hasattr(self, "buffType2")
 
     def isOfBuffType(self, buffType: BuffType) -> bool:
-        return self.buffType1 == buffType or (self.hasDoubleEffect() and self.buffType2 == buffType)
+        return self.buffType1 == buffType or (
+            self.hasDoubleEffect() and self.buffType2 == buffType
+        )
 
     def isAvailableForChefNumber(self, chefNumber: int) -> bool:
         return self.chefNumber == chefNumber
@@ -87,18 +104,25 @@ class Bonus:
         if self.ingredient1 == self.ingredient2:
             return ingredientList.count(self.ingredient1) >= 2
         else:
-            return self.ingredient1 in ingredientList and self.ingredient2 in ingredientList
+            return (
+                self.ingredient1 in ingredientList
+                and self.ingredient2 in ingredientList
+            )
 
     def get_score(self, buffType: BuffType) -> int:
         if self.is_negative():
             return -1
         elif self.buffType1 == buffType:
-            return self.buffValue1 * 10 + (self.buffValue2 if self.hasDoubleEffect() else 0)
+            return self.buffValue1 * 10 + (
+                self.buffValue2 if self.hasDoubleEffect() else 0
+            )
         elif self.hasDoubleEffect() and self.buffType2 == buffType:
             return self.buffValue2 * 10 + self.buffValue1
         else:
             return self.buffValue1 + (self.buffValue2 if self.hasDoubleEffect() else 0)
 
     def __str__(self):
-        return (f"{self.chefNumber} : {self.ingredient1} + {self.ingredient2} => {self.effect} ({self.buffType1}"
-                + (f", {self.buffType2})" if self.hasDoubleEffect() else ')'))
+        return (
+            f"{self.chefNumber} : {self.ingredient1} + {self.ingredient2} => {self.effect} ({self.buffType1}"
+            + (f", {self.buffType2})" if self.hasDoubleEffect() else ")")
+        )

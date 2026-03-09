@@ -26,14 +26,17 @@ class App(CTk):
                 controller = Controller(model, self.view)
                 self.view.set_controller(controller)
             else:
-                error_label = CTkLabel(master=self, text_color="red",
-                                       text="Something went wrong while loading json data,"
-                                            " please ensure that it is correcly formatted")
-                error_label.grid_configure(column=0, row=0, sticky='nw')
+                error_label = CTkLabel(
+                    master=self,
+                    text_color="red",
+                    text="Something went wrong while loading json data,"
+                    " please ensure that it is correcly formatted",
+                )
+                error_label.grid_configure(column=0, row=0, sticky="nw")
 
         except FileNotFoundError as e:
             error_label = CTkLabel(master=self, text=str(e), text_color="red")
-            error_label.grid_configure(column=0, row=0, sticky='nw')
+            error_label.grid_configure(column=0, row=0, sticky="nw")
 
     def save_properties(self):
         if self.view is not None:
@@ -42,7 +45,7 @@ class App(CTk):
         app.destroy()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     app = App()
     app.protocol("WM_DELETE_WINDOW", app.save_properties)
     app.mainloop()
