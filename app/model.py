@@ -11,7 +11,7 @@ class Model:
         self,
         chef_number: int,
         ingredient_list: list[IngredientType],
-        order_by: BuffType = None,
+        order_by: BuffType | None = None,
         show_no_effect: bool = False,
         show_negative_bonuses: bool = False,
     ) -> list[Bonus]:

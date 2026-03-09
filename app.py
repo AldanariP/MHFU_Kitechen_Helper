@@ -22,9 +22,8 @@ class App(CTk):
             model = Model()
 
             if model.load_ingredient_from(data):
-                self.view = View(self, configs)
-                controller = Controller(model, self.view)
-                self.view.set_controller(controller)
+                controller = Controller(model)
+                self.view = View(self, controller, configs)
             else:
                 error_label = CTkLabel(
                     master=self,

@@ -13,4 +13,5 @@ dependencies = [
 dev = [
     "pyinstaller>=6.19.0",
     "ruff>=0.15.5",
+    "ty>=0.0.21",
 ]

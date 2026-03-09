@@ -8,7 +8,7 @@ from jproperties import Properties
 config = Properties()
 
 
-def load_config() -> dict[str, str]:
+def load_config() -> dict[str, int | str | None]:
     if os.path.exists("config.properties"):
         with open("config.properties", "rb") as config_file:
             config.load(config_file)

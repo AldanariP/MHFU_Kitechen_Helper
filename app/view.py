@@ -1,3 +1,4 @@
+from app.controller import Controller
 from tkinter import ttk
 
 from customtkinter import (
@@ -16,13 +17,13 @@ from app.model import BuffType
 
 
 class View(CTkFrame):
-    def __init__(self, parent: CTk, config: dict):
+    def __init__(self, parent: CTk, controller: Controller, config: dict):
         super().__init__(parent)
         self.grid_configure(row=0, column=0, padx=10, pady=10, sticky="nsew")
         self.grid_rowconfigure(1, weight=1)
         self.grid_columnconfigure(1, weight=1)
 
-        self.controller = None
+        self.controller = controller
 
         # Primary Action Widgets
         action_frame = CTkFrame(master=self)
@@ -132,6 +133,9 @@ class View(CTkFrame):
 
         self.result_table_tree.tag_configure("RobFont", font=("roboto", 10))
 
+        self.controller.display_bonuses(self)
+        self.controller.get_check_box_data(self)
+
     def update_result_table_width_callback(self, _):
         self.result_table_tree.place(x=0, y=0, width=self.result_field_frame.winfo_width())
 
@@ -179,26 +183,24 @@ class View(CTkFrame):
     def update_chef_number_command(
         self, unused: str
     ):  # because ctk.IntVar: self.chef_number is used to share the value
-        self.controller.get_check_box_data()
-        self.controller.display_bonuses()
+        self.controller.get_check_box_data(self)
+        self.controller.display_bonuses(self)
 
     def reset_check_box_field_command(self):
-        self.controller.reset_check_box_field()
+        self.controller.reset_check_box_field(self)
 
     def sort_buffs_command(
         self, unused: str
     ):  # because ctk.IntVar: self.chef_number is used to share the value
-        self.controller.display_bonuses()
+        self.controller.display_bonuses(self)
 
     def update_bonuses_command(self):
-        self.controller.display_bonuses()
+        self.controller.display_bonuses(self)
 
     def set_controller(self, controller):
         self.controller = controller
-        self.controller.display_bonuses()
-        self.controller.get_check_box_data()
 
-    def get_properties_dict(self) -> dict[str:str]:
+    def get_properties_dict(self) -> dict[str,str]:
         return {
             "felyneNumber": str(self.chef_number_var.get()),
             "orderBy": str(
